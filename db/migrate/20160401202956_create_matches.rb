@@ -4,8 +4,8 @@ class CreateMatches < ActiveRecord::Migration
       t.integer :user_1
       t.integer :user_2
 
-      t.integer :yes_count
-      t.integer :no_count
+      t.integer :yes_count, default: 0
+      t.integer :no_count, default: 0
 
       t.timestamps null: false
     end

@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160401203943) do
     t.string   "email"
     t.string   "orientation"
     t.boolean  "gender"
+    t.string   "image_url"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

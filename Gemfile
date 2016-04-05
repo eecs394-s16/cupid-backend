@@ -16,6 +16,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'devise_token_auth'
 gem 'omniauth-facebook'
+gem 'annotate', '~> 2.7'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
