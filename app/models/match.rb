@@ -11,11 +11,35 @@
 #  updated_at :datetime         not null
 #
 
+
+# Validator so that User 1 < User 2
+class MyValidator < ActiveRecord::Validator
+  def validate(record)
+    if record.
+      record.errors[:name] << "User 1 >= User2"
+    end
+  end
+
+
+
+
+
+
+
+
+
 class Match < ActiveRecord::Base
+  
+  includes ActiveModel::Validations
+  validates_with MyValidator
+  
   belongs_to :user1, :class_name => 'User', :foreign_key => 'user_1'
   belongs_to :user2, :class_name => 'User', :foreign_key => 'user_2'
 
   # need validation for match repetetiveness
+  
+  
+  
 
   # validate that no match has same two people
   def self.get_votable_match_for(user_id)
