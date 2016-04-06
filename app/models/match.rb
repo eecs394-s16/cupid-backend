@@ -23,25 +23,12 @@
 
 
 class Match < ActiveRecord::Base
-<<<<<<< HEAD
-  
-  
-  belongs_to :user1, :class_name => 'User', :foreign_key => 'user_1'
-  belongs_to :user2, :class_name => 'User', :foreign_key => 'user_2'
-
-  # need validation for match repetetiveness
-  
-  
-  
-=======
   belongs_to :user1, :class_name => 'User', :foreign_key => 'user_1_id'
   belongs_to :user2, :class_name => 'User', :foreign_key => 'user_2_id'
 
   # need validation for match repetetiveness
   # need a validation to verify user1 < user2
->>>>>>> 5dd143077c6281b6a1cdd621ea23553522d5e693
 
-  # validate that no match has same two people
   def self.get_votable_match_for(user_id)
     match = Match.joins('LEFT join votes on match.id = vote.match_id')
       .where.not(user_id: user_id).where.not(user_1_id: user_id).where.not(user_2_id: user_id).first
