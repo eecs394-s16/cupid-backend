@@ -11,7 +11,21 @@
 #  updated_at :datetime         not null
 #
 
+
+# Validator so that User 1 < User 2 (Finished)
+
+class MyValidator < ActiveModel::Validator
+    def validate(record)
+        unless record.user_1_id < record.user_2_id
+          record.errors[:name] << 'User 1 >= User 2'
+        end
+    end
+end
+
 class Match < ActiveRecord::Base
+  include ActiveModel::Validations
+  validates_with MyValidator
+
   belongs_to :user1, :class_name => 'User', :foreign_key => 'user_1_id'
   belongs_to :user2, :class_name => 'User', :foreign_key => 'user_2_id'
 
