@@ -14,7 +14,7 @@
 
 # Validator so that User 1 < User 2 (Finished)
 
-class MyValidator < ActiveRecord::Validates
+class MyValidator < ActiveRecord::Validator
     def validates(record)
         unless record.user_1_id < record.user_2_id
           record.errors[:name] << 'User 1 >= User 2'
