@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-
-  post '/api/match' => 'match#match_response'
+  post '/api/match' => 'matches#vote_on_match'
+  get '/api/hi' => 'matches#hi'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
