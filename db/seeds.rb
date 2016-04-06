@@ -50,4 +50,6 @@ User.create(first_name: 'Yichi', last_name: 'Wong',
             image_url: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Domestic_goat_kid_in_capeweed.jpg',
             orientation: 'bi', gender: false, email: 'yichi@wong.com')
 
+
+
 Match.create_valid_matches

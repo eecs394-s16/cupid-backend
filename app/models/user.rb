@@ -23,4 +23,23 @@ class User < ActiveRecord::Base
   def full_name
     first_name + ' ' + last_name
   end
+
+  def get_votable_match
+    # votable matches, whether voted on or not
+    votable_matches = Match.where.not(user_1_id: id).where.not(user_2_id: id)
+    # matches I've voted on - this will be slow because it's not sql
+    matches_ive_voted_on = Vote.where(user_id: id).all.map(&:match_id)
+
+    # postgres specific
+    match = votable_matches.where.not(id: matches_ive_voted_on).order("RANDOM()").first
+
+    return {
+      'match_id': match.id,
+      'user_id': id,
+      'users': [
+         {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
+         {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
+      ]
+    }
+  end
 end

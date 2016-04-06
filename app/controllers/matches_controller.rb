@@ -17,7 +17,7 @@ class MatchesController < ApplicationController
   def match_response
     get_params
     Vote.match_vote(@match_params)
-    render json: JSON.encode(Match.get_votable_match_for(@match_params[:user_id]))
+    render json: JSON.encode(User.find(@match_params[:user_id]).get_votable_match)
   end
 
   private
