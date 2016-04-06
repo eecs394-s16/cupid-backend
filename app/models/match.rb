@@ -12,22 +12,29 @@
 #
 
 
-# Validator so that User 1 < User 2
+# Validator so that User 1 < User 2 (Finished)
 
-
-
-
-
+class MyValidator < ActiveRecord::Validates
+    def validates(record)
+        unless record.user1.id < record.user2.id
+          record.errors[:name] << 'User 1 >= User 2'
+        end
+    end
+end
 
 
 
 
 class Match < ActiveRecord::Base
+  
+  include ActiveModel::Validations
+  validates_with MyValidator
+  
+  
   belongs_to :user1, :class_name => 'User', :foreign_key => 'user_1_id'
   belongs_to :user2, :class_name => 'User', :foreign_key => 'user_2_id'
 
-  # need validation for match repetetiveness
-  # need a validation to verify user1 < user2
+  # need validation for match repetitiveness
 
   def self.get_votable_match_for(user_id)
     match = Match.joins('LEFT join votes on match.id = vote.match_id')
