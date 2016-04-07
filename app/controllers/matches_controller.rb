@@ -21,7 +21,7 @@ class MatchesController < ApplicationController
   end
 
   def hi
-    render json: {hello: 'hi'}
+    render json: {hello: 'hi'}, callback: params['callback']
   end
 
   private
