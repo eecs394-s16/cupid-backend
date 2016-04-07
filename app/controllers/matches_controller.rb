@@ -13,24 +13,15 @@
 
 class MatchesController < ApplicationController
   def vote_on_match
-    respond_to do |format|
-      format.json do
-        puts 'haiiii'
-        get_params
-        Vote.match_vote(@match_params)
-        resp = User.find(@match_params[:user_id]).get_votable_match
-        render json: resp
-      end
-    end
+    puts 'haiiii'
+    get_params
+    Vote.match_vote(@match_params)
+    resp = User.find(@match_params[:user_id]).get_votable_match
+    render json: resp
   end
 
   def hi
-    respond_to do |format|
-      format.json do
-        puts 'recieved'
-        render json: {hello: 'hi'}
-      end
-    end
+    render json: {hello: 'hi'}
   end
 
   private
