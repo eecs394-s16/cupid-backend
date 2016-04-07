@@ -23,14 +23,12 @@ module CupidBackend
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.middleware.insert_before 0, "Rack::Cors", :debug => true, :logger => (-> { Rails.logger }) do
+    config.middleware.insert_before ActionDispatch::Static, "Rack::Cors" do
       allow do
         origins '*'
-
         resource '*',
           :headers => :any,
           :methods => [:get, :post, :delete, :put, :patch, :options, :head],
-          :max_age => 600
       end
     end
 
