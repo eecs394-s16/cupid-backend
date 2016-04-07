@@ -28,7 +28,7 @@ module CupidBackend
         origins '*'
         resource '*',
           :headers => :any,
-          :methods => [:get, :post, :delete, :put, :patch, :options, :head]
+          :methods => :any
       end
     end
 
