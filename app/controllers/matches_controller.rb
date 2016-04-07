@@ -14,13 +14,9 @@
 class MatchesController < ApplicationController
   def vote_on_match
     get_params
-    puts @match_params
-
     Vote.match_vote(@match_params) if @match_params[:match_id]
     resp = User.find(@match_params[:user_id]).get_votable_match
-
-    render json: {sup: 'hi'}
-    # render json: resp.to_json
+    render json: resp.to_json
   end
 
   def hi
