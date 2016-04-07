@@ -6,18 +6,11 @@ run Rails.application
 use Rack::Cors do
   allow do
     origins 'localhost:3000', '127.0.0.1:3000', 'localhost:4567'
-            # /\Ahttp:\/\/192\.168\.0\.\d{1,3}(:\d+)?\z/
-            # regular expressions can be used here
 
     resource '*',
         :methods => [:get, :post, :delete, :put, :patch, :options, :head],
-        :headers => 'x-domain-token',
-        :expose  => ['Some-Custom-Response-Header'],
+        :headers => :any,
+        :expose  => :any,
         :max_age => 600
   end
-
-  # allow do
-  #   origins '*'
-  #   resource '/public/*', :headers => :any, :methods => :get
-  # end
 end
