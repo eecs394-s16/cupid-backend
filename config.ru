@@ -5,12 +5,10 @@ run Rails.application
 
 use Rack::Cors do
   allow do
-    origins 'localhost:3000', '127.0.0.1:3000', 'localhost:4567'
-
+    # origins 'localhost:3000', '127.0.0.1:3000', 'localhost:4567'
+    origins '*'
     resource '*',
         :methods => [:get, :post, :delete, :put, :patch, :options, :head],
-        :headers => :any,
-        :expose  => :any,
-        :max_age => 600
+        :headers => :any
   end
 end
