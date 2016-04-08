@@ -15,20 +15,19 @@ class MatchesController < ApplicationController
   def vote_on_match
     get_params
     Vote.match_vote(@match_params) if @match_params[:match_id]
-    # resp = User.find(@match_params[:user_id]).get_votable_match
-    m = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
+    resp = User.find(@match_params[:user_id]).get_votable_match
 
+    # m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
+    # render json: {
+    #   'match_id': m.id,
+    #   'user_id': 1,
+    #   'users': [
+    #      {'name': m.user1.full_name, 'profile_picture': m.user1.image_url},
+    #      {'name': m.user2.full_name, 'profile_picture': m.user2.image_url},
+    #   ]
+    # }
 
-    render json: {
-      'match_id': m.id,
-      'user_id': 1,
-      'users': [
-         {'name': m.user1.full_name, 'profile_picture': m.user1.image_url},
-         {'name': m.user2.full_name, 'profile_picture': m.user2.image_url},
-      ]
-    }
-
-    # render json: resp.to_json
+    render json: resp.to_json
   end
 
   def hi
