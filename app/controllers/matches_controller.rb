@@ -15,6 +15,7 @@ class MatchesController < ApplicationController
   def vote_on_match
     get_params
     Vote.match_vote(@match_params) if @match_params[:match_id]
+    puts @match_params
     resp = User.find(@match_params[:user_id]).get_votable_match
 
     # m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
