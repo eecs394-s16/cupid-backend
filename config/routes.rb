@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
-  post '/api/match' => 'matches#vote_on_match', defaults: { format: :json }
-  get '/api/hi' => 'matches#hi', defaults: { format: :json }
+  # post '/api/match' => 'matches#vote_on_match', defaults: { format: :json }
+  # get '/api/hi' => 'matches#hi', defaults: { format: :json }
+  scope path: '/api', defaults: {format: 'json'} do
+    resources :votes, only: [:create]
+    resources :matches, only: [:show]
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

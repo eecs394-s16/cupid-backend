@@ -7,6 +7,6 @@ use Rack::Cors do
   allow do
     # origins 'localhost:3000', '127.0.0.1:3000', 'localhost:4567'
     origins '*'
-    resource '*', :headers => :any, :methods => :any
+    resource '', :headers => :any, :methods => :any
   end
 end
