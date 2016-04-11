@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-
-
-
-
-
   # get 'home/show'
 
   # post '/api/match' => 'matches#vote_on_match', defaults: { format: :json }
@@ -14,21 +9,12 @@ Rails.application.routes.draw do
   # end
 
 
-  # get 'home/show'
-
-
-  get 'home/index'
-
-
   get '/auth/:provider/callback' => 'sessions#create'
 
   get '/signout' => 'sessions#destroy', :as => :signout
+  get '/signin' => 'sessions#new', as: :signin
 
-  get '/signin' => 'sessions#new', :as => :signin
-
-  root :to => 'home#index'
-
-
+  root :to => 'home#show'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

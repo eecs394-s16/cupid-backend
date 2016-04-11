@@ -4,26 +4,30 @@
 #
 #  id          :integer          not null, primary key
 #  first_name  :string
-#  last_name   :string
 #  email       :string
 #  orientation :string
 #  gender      :boolean
 #  image_url   :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  uid         :integer
+#  last_name   :string
 #
 
 class User < ActiveRecord::Base
 
   def self.create_with_omniauth(auth)
     create! do |user|
-      #user.provider = auth['provider']
+      user.provider = auth['provider']
       user.uid = auth['uid']
       if auth['info']
+        puts "!!!!!!!!!!!!!!!!!!!!!!!!"
+        puts auth['info'].inspect
         user.first_name = auth['info']['first_name'] || ""
         user.last_name = auth['info']['last_name'] || ""
         user.email = auth['info']['email'] || ""
-        user.image_url = auth['info']['picture'] || ""
+        user.image_url = auth['info']['image'] || ""
+        user.gender = auth['info']['gender'] == 'male'
       end
     end
   end
@@ -31,8 +35,8 @@ class User < ActiveRecord::Base
   has_many :matches
 
   validates_uniqueness_of :email
-  validates_presence_of :name, :email, :orientation, :image_url
-  validates :orientation, inclusion: { in: ['straight', 'gay', 'bi'] }
+  validates_presence_of :first_name, :last_name, :email, :image_url #, :orientation, :gender
+  validates :orientation, inclusion: { in: ['straight', 'gay', 'bi', nil] }
 
   def get_votable_match
     # votable matches, whether voted on or not
