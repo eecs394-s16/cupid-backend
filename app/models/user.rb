@@ -33,9 +33,13 @@ class User < ActiveRecord::Base
       'match_id': match.id,
       'user_id': id,
       'users': [
-         {'name': match.user1.name, 'profile_picture': match.user1.image_url},
-         {'name': match.user2.name, 'profile_picture': match.user2.image_url},
+         {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
+         {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
       ]
     }
+  end
+
+  def full_name
+    first_name + ' ' + last_name
   end
 end
