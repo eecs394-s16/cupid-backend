@@ -17,12 +17,8 @@ class User < ActiveRecord::Base
   has_many :matches
 
   validates_uniqueness_of :email
-  validates_presence_of :first_name, :last_name, :email, :orientation, :image_url
+  validates_presence_of :name, :email, :orientation, :image_url
   validates :orientation, inclusion: { in: ['straight', 'gay', 'bi'] }
-
-  def full_name
-    first_name + ' ' + last_name
-  end
 
   def get_votable_match
     # votable matches, whether voted on or not
@@ -37,8 +33,8 @@ class User < ActiveRecord::Base
       'match_id': match.id,
       'user_id': id,
       'users': [
-         {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
-         {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
+         {'name': match.user1.name, 'profile_picture': match.user1.image_url},
+         {'name': match.user2.name, 'profile_picture': match.user2.image_url},
       ]
     }
   end

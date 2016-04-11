@@ -10,5 +10,4 @@ class VotesController < ApplicationController
   def get_params
     @vote_params = params.permit(:user_id, :match_id, :yes)
   end
-
 end
