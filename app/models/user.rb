@@ -33,24 +33,26 @@ class User < ActiveRecord::Base
       'match_id': match.id,
       'user_id': id,
       'users': [
-         {'name': match.user1.name, 'profile_picture': match.user1.image_url},
-         {'name': match.user2.name, 'profile_picture': match.user2.image_url},
+         {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
+         {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
       ]
     }
   end
 
   def self.create_with_omniauth(auth)
     create! do |user|
-    #user.provider = auth['provider']
-    user.uid = auth['uid']
-    if auth['info']
-      user.first_name = auth['info']['first_name'] || ""
-      user.last_name = auth['info']['last_name'] || ""
-      user.email = auth['info']['email'] || ""
-      user.image_url = auth['info']['picture'] || ""
+      #user.provider = auth['provider']
+      user.uid = auth['uid']
+      if auth['info']
+        user.first_name = auth['info']['first_name'] || ""
+        user.last_name = auth['info']['last_name'] || ""
+        user.email = auth['info']['email'] || ""
+        user.image_url = auth['info']['picture'] || ""
+      end
     end
   end
-end
 
-
+  def full_name
+    first_name + ' ' + last_name
+  end
 end

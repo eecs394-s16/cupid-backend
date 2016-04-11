@@ -13,6 +13,8 @@
 
 class MatchesController < ApplicationController
   def show
+    m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
+
     render json: {'hello': 'hi'}
   end
 
