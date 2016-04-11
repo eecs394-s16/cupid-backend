@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'home/show'
+
   # post '/api/match' => 'matches#vote_on_match', defaults: { format: :json }
   # get '/api/hi' => 'matches#hi', defaults: { format: :json }
   scope path: '/api', defaults: {format: 'json'} do
