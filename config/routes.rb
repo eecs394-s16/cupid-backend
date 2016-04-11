@@ -1,13 +1,34 @@
 Rails.application.routes.draw do
 
-  get 'home/show'
+
+
+
+
+  # get 'home/show'
 
   # post '/api/match' => 'matches#vote_on_match', defaults: { format: :json }
   # get '/api/hi' => 'matches#hi', defaults: { format: :json }
-  scope path: '/api', defaults: {format: 'json'} do
-    resources :votes, only: [:create]
-    resources :matches, only: [:show]
-  end
+  # scope path: '/api', defaults: {format: 'json'} do
+  #   resources :votes, only: [:create]
+  #   resources :matches, only: [:show]
+  # end
+
+
+  # get 'home/show'
+
+
+  get 'home/index'
+
+
+  get '/auth/:provider/callback' => 'sessions#create'
+
+  get '/signout' => 'sessions#destroy', :as => :signout
+
+  get '/signin' => 'sessions#new', :as => :signin
+
+  root :to => 'home#index'
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
