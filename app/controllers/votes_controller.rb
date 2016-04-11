@@ -1,17 +1,16 @@
 class VotesController < ApplicationController
   def create
-    # get_params
+    get_params
     # Vote.match_vote(@vote_params) if @vote_params[:match_id]
     # resp = User.find(@vote_params[:user_id]).get_votable_match
 
-    http_envs = {}.tap do |envs|
-      request.headers.each do |key, value|
-        envs[key] = value if key.downcase.starts_with?('http')
-      end
-    end
+    # http_envs = {}.tap do |envs|
+    #   request.headers.each do |key, value|
+    #     envs[key] = value if key.downcase.starts_with?('http')
+    #   end
+    # end
 
-
-    render json: {req: http_envs}
+    render json: {req: @vote_params}
 
     # render json: resp.to_json
   end
