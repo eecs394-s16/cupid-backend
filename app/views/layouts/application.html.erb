@@ -1,0 +1,29 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>MyApp</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<h1>Homepage</h1>
+
+<ul>
+<% flash.each do |key, msg| %>
+  <%= content_tag :li, msg, id: key %>
+<% end %>
+</ul>
+
+<p><%= link_to 'Sign in with Facebook', signin_path %></p>
+<p> <%= link_to 'Sign Out', signout_path %></p>
+
+</html>
