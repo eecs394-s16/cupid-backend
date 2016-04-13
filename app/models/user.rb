@@ -21,13 +21,13 @@ class User < ActiveRecord::Base
       user.provider = auth['provider']
       user.uid = auth['uid']
       if auth['info']
-        puts "!!!!!!!!!!!!!!!!!!!!!!!!"
         puts auth['info'].inspect
         user.first_name = auth['info']['first_name'] || ""
         user.last_name = auth['info']['last_name'] || ""
         user.email = auth['info']['email'] || ""
         user.image_url = auth['info']['image'] || ""
         user.gender = auth['info']['gender'] == 'male'
+        print auth['info']['gender']
       end
     end
   end

@@ -3,11 +3,10 @@ Rails.application.routes.draw do
 
   # post '/api/match' => 'matches#vote_on_match', defaults: { format: :json }
   # get '/api/hi' => 'matches#hi', defaults: { format: :json }
-  # scope path: '/api', defaults: {format: 'json'} do
-  #   resources :votes, only: [:create]
-  #   resources :matches, only: [:show]
-  # end
-
+  scope path: '/api', defaults: {format: 'XML'} do
+    resources :votes, only: [:create]
+    resources :matches, only: [:show]
+  end
 
   get '/auth/:provider/callback' => 'sessions#create'
 
