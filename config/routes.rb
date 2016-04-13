@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/signin' => 'sessions#new', as: :signin
 
+  post '/mymatch' => 'matches#mymatch', as: :mymatch
+
   root :to => 'home#show'
 
   # The priority is based upon order of creation: first created -> highest priority.
