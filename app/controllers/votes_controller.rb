@@ -11,15 +11,8 @@
 #
 
 class VotesController < ApplicationController
-  skip_before_filter :verify_authenticity_token
-
   def create
     get_params
-
-    puts "!!!!!!!!!!!!!!!!"
-    puts @vote_params
-    puts "!!!!!!!!!!!!!!!!"
-
     Vote.match_vote(@vote_params) if @vote_params[:match_id]
     resp = User.find(@vote_params[:user_id]).get_votable_match
     render json: resp.to_json
