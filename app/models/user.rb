@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
       return {
         'match_id': match.id,
         'user_id': id,
+        'user_name': full_name,
         'users': [
            {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
            {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
