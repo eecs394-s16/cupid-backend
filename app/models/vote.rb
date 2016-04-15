@@ -16,4 +16,8 @@ class Vote < ActiveRecord::Base
                  match_id: match_params[:match_id],
                  yes: match_params[:yes])
   end
+
+  def self.find_num_votes(match_id)
+  	return Vote.where(match_id: match_id, yes: true).count
+  end
 end

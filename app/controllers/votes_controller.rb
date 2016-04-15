@@ -20,6 +20,9 @@ class VotesController < ApplicationController
     render json: resp.to_json
   end
 
+
+
+
   private
   def get_params
     @vote_params = params.permit(:user_id, :match_id, :yes)

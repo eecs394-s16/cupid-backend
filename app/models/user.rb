@@ -46,16 +46,25 @@ class User < ActiveRecord::Base
 
     # postgres specific
     match = votable_matches.where.not(id: matches_ive_voted_on).order("RANDOM()").first
-
-    return {
-      'match_id': match.id,
-      'user_id': id,
-      'user_name': full_name,
-      'users': [
-         {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
-         {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
-      ]
-    }
+    # if it is not an empty match
+    unless match.blank? 
+      return {
+        'match_id': match.id,
+        'user_id': id,
+        'user_name': full_name,
+        'users': [
+           {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
+           {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
+        ]
+      }
+    
+    # otherwise return match_id equals null
+    else
+      return {
+          'match_id': false
+        }
+    
+    end
   end
 
   def full_name
