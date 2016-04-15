@@ -1,3 +1,7 @@
+== Heroku stuff
+
+Run `heroku run rake seed:fill_in_user_data` to fill in gender and orientation for blank ones.
+
 == README
 
 This README would normally document whatever steps are necessary to get the
