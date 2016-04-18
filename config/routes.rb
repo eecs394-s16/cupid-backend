@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     resources :votes, only: [:create]
     resources :matches, only: [:show]
     resources :users, only: [:create]
-
   end
 
   get '/auth/:provider/callback' => 'sessions#create'
