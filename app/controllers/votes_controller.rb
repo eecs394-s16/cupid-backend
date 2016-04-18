@@ -14,14 +14,15 @@ class VotesController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
-    get_params
-    Vote.match_vote(@vote_params) if @vote_params[:match_id]
-    resp = User.find(@vote_params[:user_id]).get_votable_match
-    render json: resp.to_json
+    if check_token
+      get_params
+      Vote.match_vote(@vote_params) if @vote_params[:match_id]
+      resp = User.find(@vote_params[:user_id]).get_votable_match
+      render json: resp.to_json
+    else
+      render json: {status: 401}
+    end
   end
-
-
-
 
   private
   def get_params

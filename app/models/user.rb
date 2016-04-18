@@ -2,16 +2,19 @@
 #
 # Table name: users
 #
-#  id          :integer          not null, primary key
-#  first_name  :string
-#  email       :string
-#  orientation :string
-#  gender      :boolean
-#  image_url   :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  uid         :integer
-#  last_name   :string
+#  id              :integer          not null, primary key
+#  first_name      :string
+#  email           :string
+#  orientation     :string
+#  gender          :boolean
+#  image_url       :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  uid             :integer
+#  last_name       :string
+#  provider        :string
+#  password_digest :string
+#  access_token    :string
 #
 
 class User < ActiveRecord::Base
@@ -33,10 +36,12 @@ class User < ActiveRecord::Base
   end
 
   has_many :matches
+  has_secure_password
 
   validates_uniqueness_of :email
-  validates_presence_of :first_name, :last_name, :email, :image_url #, :orientation, :gender
-  validates :orientation, inclusion: { in: ['straight', 'gay', 'bi', nil] }
+  validates_presence_of :email, :orientation
+  validates :orientation, inclusion: { in: ['straight', 'gay', 'bi'] }
+  validates_confirmation_of :password
 
   def get_votable_match
     # votable matches, whether voted on or not
@@ -63,11 +68,18 @@ class User < ActiveRecord::Base
       return {
           'match_id': false
         }
-
     end
   end
 
   def full_name
     first_name + ' ' + last_name
+  end
+
+  def generate_access_token
+    begin
+      self.access_token = SecureRandom.hex
+    end while self.class.exists?(access_token: access_token)
+    self.save
+    return self.access_token
   end
 end

@@ -12,38 +12,37 @@
 #
 
 class MatchesController < ApplicationController
-
-	# avoid "Can't verify CSRF token authenticity" error
-	protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
-  def show
-    m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
-
-    render json: {'hello': 'hi'}
-  end
-
+  protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
 
   def mymatch
-    # the data contains the user id
-    data= JSON.parse request.body.read
-    # the things we need to return are: list of [user_2_id, user_2_first_name, user_2_last_name, user_2_pic, num_votes]
-    mymatch_array = Array.new
-    Match.where(user_1_id: data["user_id"]).find_each do |m|
-      user_2_id=m.user_2_id
-      num_votes=Vote.find_num_votes(m.id)
-      user_2=User.where(id: user_2_id).take
-			
-      mymatch_array << {
-				"user_2_fb_id": user_2.uid,
-				'user_2_first_name': user_2.first_name,
-				'user_2_last_name': user_2.last_name,
-				'user_2_pic': user_2.image_url,
-				'num_votes': num_votes
-			}
+    if check_token
+      data = JSON.parse request.body.read
+      mymatch_array = Array.new
+      Match.where(user_1_id: data["user_id"]).find_each do |m|
+        user_2_id = m.user_2_id
+        num_votes = Vote.find_num_votes(m.id)
+        user_2 = User.where(id: user_2_id).take
+        mymatch_array << {
+          "user_2_fb_id": user_2.uid,
+          'user_2_first_name': user_2.first_name,
+          'user_2_last_name': user_2.last_name,
+          'user_2_pic': user_2.image_url,
+          'num_votes': num_votes
+        }
+      end
+      render json: {'mymatch': mymatch_array}
+    else
+      render json: {status: 401}
     end
-    #render text: "Thanks for sending a POST request with cURL! Payload: #{data}";
-    #render text: "Thanks for sending a POST request with cURL! Returning: #{m.user_2_id}";
-    render json: {'mymatch': mymatch_array}
-    return
+  end
+
+  def show
+    if check_token
+      m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
+      render json: {'hello': 'hi'}
+    else
+      render json: {status: 401}
+    end
   end
 
   private

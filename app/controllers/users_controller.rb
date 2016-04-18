@@ -17,14 +17,21 @@
 #  access_token    :string
 #
 
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+class UsersController < ApplicationController
+  def create
+    user_params
+    u = User.new(@user_params)
+    if u.save
+      return {access_token: u.generate_access_token, success: true}
+    else
+      return {success: false, errors: u.errors.full_messages}
+    end
+  end
 
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+  private
+
+  def user_params
+    @user_params = params.require(:user)
+      .permit(:password, :password_confirmation, :email, :orientation)
+  end
+end

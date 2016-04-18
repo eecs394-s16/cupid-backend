@@ -6,12 +6,15 @@ Rails.application.routes.draw do
   scope path: '/api', defaults: {format: 'XML'} do
     resources :votes, only: [:create]
     resources :matches, only: [:show]
+    resources :users, only: [:create]
+
   end
 
   get '/auth/:provider/callback' => 'sessions#create'
 
+  post '/login' => 'sessions#create'
   get '/signout' => 'sessions#destroy', :as => :signout
-  get '/signin' => 'sessions#new', as: :signin
+  # get '/signin' => 'sessions#new', as: :signin
 
   post '/mymatch' => 'matches#mymatch', as: :mymatch
 
