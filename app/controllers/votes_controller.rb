@@ -21,6 +21,9 @@ class VotesController < ApplicationController
     render json: { origin: request.headers['origin'] }
   end
 
+
+
+
   private
   def get_params
     @vote_params = params.permit(:user_id, :match_id, :yes)
