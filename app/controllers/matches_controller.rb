@@ -31,10 +31,14 @@ class MatchesController < ApplicationController
       user_2_id=m.user_2_id
       num_votes=Vote.find_num_votes(m.id)
       user_2=User.where(id: user_2_id).take
-      user_2_first_name=user_2.first_name
-      user_2_last_name=user_2.last_name
-      user_2_pic=user_2.image_url
-      mymatch_array << {"user_2_id": user_2_id, 'user_2_first_name': user_2_first_name, 'user_2_last_name': user_2_last_name, 'user_2_pic': user_2_pic, 'num_votes': num_votes}
+			
+      mymatch_array << {
+				"user_2_fb_id": user_2.uid,
+				'user_2_first_name': user_2.first_name,
+				'user_2_last_name': user_2.last_name,
+				'user_2_pic': user_2.image_url,
+				'num_votes': num_votes
+			}
     end
     #render text: "Thanks for sending a POST request with cURL! Payload: #{data}";
     #render text: "Thanks for sending a POST request with cURL! Returning: #{m.user_2_id}";

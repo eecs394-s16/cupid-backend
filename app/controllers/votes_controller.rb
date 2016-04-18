@@ -17,8 +17,7 @@ class VotesController < ApplicationController
     get_params
     Vote.match_vote(@vote_params) if @vote_params[:match_id]
     resp = User.find(@vote_params[:user_id]).get_votable_match
-    # render json: resp.to_json
-    render json: { origin: request.headers['origin'] }
+    render json: resp.to_json
   end
 
 
