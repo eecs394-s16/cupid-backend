@@ -33,7 +33,14 @@ class User < ActiveRecord::Base
 
         @graph = Koala::Facebook::API.new(auth['credentials']['token'])
         friends = @graph.get_connections("me", "friends", api_version: "v2.0")
-        profile = @graph.get_object("me")
+
+        friends.each do |profile|
+          next unless friend = User.find_by_uid(profile['id'])
+          next if Friendship.where(user_id: user.id, friend_id: friend.id).blank?
+          Friendship.create({:user_id => auth['info']['uid'],:friend_id => profile['id']})
+        end
+
+
       end
     end
   end
