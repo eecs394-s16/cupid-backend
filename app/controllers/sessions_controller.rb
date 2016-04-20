@@ -1,10 +1,13 @@
 class SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def create
-    login_params
+    puts "!!!!!!!!!!!!!!!!!!!!!"
+    puts params
+    puts "!!!!!!!!!!!!!!!!!!!!!"
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
-      render json: { success: true, access_token: User.generate_access_token, user_id: user.id }
+      render json: { success: true, access_token: user.generate_access_token, user_id: user.id }
     else
       render json: { success: false }
     end

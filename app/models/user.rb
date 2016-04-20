@@ -18,6 +18,7 @@
 #
 
 class User < ActiveRecord::Base
+  before_save :downcase_email
 
   def self.create_with_omniauth(auth)
     create! do |user|
@@ -81,6 +82,10 @@ class User < ActiveRecord::Base
           'match_id': false
         }
     end
+  end
+
+  def downcase_email
+    self.email.downcase!
   end
 
   def full_name
