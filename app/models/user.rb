@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
   end
 
   has_many :matches
+  has_many :friendships
+  has_many :friends, through: :friendships
   has_secure_password
 
   validates_uniqueness_of :email
