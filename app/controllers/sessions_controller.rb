@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
 
   def create
-    login_params
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       render json: { success: true, access_token: User.generate_access_token, user_id: user.id }
