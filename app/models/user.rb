@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
     if auth['info']
       user.name = auth['info']['name'] || ""
       user.email = auth['info']['email'] || ""
+      puts "!!!!!!!!!!!!!"
+      puts auth
     end
   end
 end

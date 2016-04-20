@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   get 'home/index'
 
-  # get 'home/show'
-
 
   get '/auth/:provider/callback' => 'sessions#create'
 
