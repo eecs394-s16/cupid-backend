@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     user_params
     u = User.new(@user_params)
     if u.save
-      render json: {access_token: u.generate_access_token, success: true}
+      render json: {access_token: u.generate_access_token, success: true, user_id: u.id}
     else
       render json: {success: false, errors: u.errors.full_messages}
     end
