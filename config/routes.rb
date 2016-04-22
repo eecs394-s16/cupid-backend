@@ -1,26 +1,23 @@
 Rails.application.routes.draw do
-  # get 'home/show'
-
-  # post '/api/match' => 'matches#vote_on_match', defaults: { format: :json }
-  # get '/api/hi' => 'matches#hi', defaults: { format: :json }
   scope path: '/api', defaults: {format: 'XML'} do
     resources :votes, only: [:create]
     resources :matches, only: [:show]
     resources :users, only: [:create]
   end
 
-  get '/auth/:provider/callback' => 'sessions#create'
-
   post '/login' => 'sessions#create'
   get '/signout' => 'sessions#destroy', :as => :signout
-  # get '/signin' => 'sessions#new', as: :signin
 
   post '/mymatch' => 'matches#mymatch', as: :mymatch
   post '/getnextuser' => 'matches#get_next_user_and_votable_match'
   post '/getprevuser' => 'matches#get_prev_user_and_votable_match'
   post '/getmatchforuser' => 'matches#get_votable_match_for_user'
 
-  root :to => 'home#show'
+  # Facebook connect routes - backend html pages
+  get '/signin' => 'sessions#signin'
+  post '/connect' => 'sessions#connect'
+
+  get 'auth/:provider/callback' => 'sessions#connect_callback'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

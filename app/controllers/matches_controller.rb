@@ -35,7 +35,7 @@ class MatchesController < ApplicationController
       render json: {status: 401}
     end
   end
-
+  
   def show
     if check_token
       m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
