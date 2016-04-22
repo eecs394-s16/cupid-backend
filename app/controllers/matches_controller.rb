@@ -45,6 +45,42 @@ class MatchesController < ApplicationController
     end
   end
 
+  def get_next_user_and_votable_match
+  	# if check_token
+      data = JSON.parse request.body.read
+      # The data should contain two things:
+      # One is the user's id. The other one is the id of the previous match (relative to the new match you're about to get)
+      return_data=User.find(data['user_id']).get_next_user(data['prev_user_id'])
+      render json: return_data
+    # else
+    #   render json: {status: 401}
+    # end
+  end
+
+  def get_prev_user_and_votable_match
+  	# if check_token
+      data = JSON.parse request.body.read
+      # The data should contain two things:
+      # One is the user's id. The other one is the id of the current match.
+      return_data=User.find(data['user_id']).get_prev_user(data['curr_user_id'])
+      render json: return_data
+    # else
+    #   render json: {status: 401}
+    # end
+  end
+
+  def get_votable_match_for_user
+  	# if check_token
+      data = JSON.parse request.body.read
+      # The data should contain two things:
+      # One is the user's id. The other one is the id of the person to be matched. 
+      return_data=User.find(data['user_id']).get_votable_match_for_user(data['curr_matched_id'])
+      render json: return_data
+    # else
+    #   render json: {status: 401}
+    # end
+  end
+
   private
   def get_params
     # @match_params = params.permit(:user_id, :match_id, :yes)

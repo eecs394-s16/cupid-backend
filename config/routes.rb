@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   # get '/signin' => 'sessions#new', as: :signin
 
   post '/mymatch' => 'matches#mymatch', as: :mymatch
+  post '/getnextuser' => 'matches#get_next_user_and_votable_match'
+  post '/getprevuser' => 'matches#get_prev_user_and_votable_match'
+  post '/getmatchforuser' => 'matches#get_votable_match_for_user'
 
   root :to => 'home#show'
 
