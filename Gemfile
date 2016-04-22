@@ -23,6 +23,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 gem 'omniauth-facebook'
 gem 'annotate', '~> 2.7'
+gem 'koala', '~> 2.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
