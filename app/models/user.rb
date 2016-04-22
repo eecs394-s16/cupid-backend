@@ -18,43 +18,38 @@
 #
 
 class User < ActiveRecord::Base
-  before_save :downcase_email
-
-  def self.create_with_omniauth(auth)
-    create! do |user|
-      user.provider = auth['provider']
-      user.uid = auth['uid']
-      if auth['info']
-        puts auth['info'].inspect
-        user.first_name = auth['info']['first_name'] || ""
-        user.last_name = auth['info']['last_name'] || ""
-        user.email = auth['info']['email'] || ""
-        user.image_url = auth['info']['image'] || ""
-        user.gender = auth['info']['gender'] == 'male'
-
-        @graph = Koala::Facebook::API.new(auth['credentials']['token'])
-        friends = @graph.get_connections("me", "friends", api_version: "v2.0")
-
-        friends.each do |profile|
-          next unless friend = User.find_by_uid(profile['id'])
-          next if Friendship.where(user_id: user.id, friend_id: friend.id).blank?
-          Friendship.create({:user_id => auth['info']['uid'],:friend_id => profile['id']})
-        end
-
-
-      end
-    end
-  end
-
   has_many :matches
   has_many :friendships
   has_many :friends, through: :friendships
   has_secure_password
 
+  before_save :downcase_email
   validates_uniqueness_of :email
   validates_presence_of :email, :orientation
   validates :orientation, inclusion: { in: ['straight', 'gay', 'bi'] }
   validates_confirmation_of :password
+
+  def update_facebook_params(auth)
+    self.provider = auth['provider']
+    self.uid = auth['uid']
+
+    if auth['info']
+      puts auth['info'].inspect
+      self.first_name = auth['info']['first_name'] || ""
+      self.last_name = auth['info']['last_name'] || ""
+      self.image_url = auth['info']['image'] || ""
+      self.gender = auth['info']['gender'] == 'male'
+
+      @graph = Koala::Facebook::API.new(auth['credentials']['token'])
+      friends = @graph.get_connections("me", "friends", api_version: "v2.0")
+
+      friends.each do |profile|
+        next unless friend = User.find_by_uid(profile['id'])
+        next if Friendship.where(user_id: user.id, friend_id: friend.id).blank?
+        Friendship.create({:user_id => auth['info']['uid'],:friend_id => profile['id']})
+      end
+    end
+  end
 
   def get_votable_match
     # votable matches, whether voted on or not

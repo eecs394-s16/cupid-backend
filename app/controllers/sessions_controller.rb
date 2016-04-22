@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    # unused currently
     if check_token
       User.find_by(user_id: params[:user_id]).access_token = nil
     else
@@ -18,23 +19,23 @@ class SessionsController < ApplicationController
     end
   end
 
-  # FACEBOOK STUFF: will need to reimplement later
+  def connect
+    user = User.find_by(email: params[:session][:email].downcase)
+    if user && user.authenticate(params[:session][:password])
+      session[:user_id] = user.id
+      redirect_to '/auth/facebook'
+    else
+      flash[:danger] = 'Incorrect email or password'
+      redirect_to '/signin'
+    end
+  end
 
-  # def create
-  #   auth = request.env["omniauth.auth"]
-  #   user = User.where(:provider => auth['provider'],
-  #                     :uid => auth['uid']).first || User.create_with_omniauth(auth)
-  #   session[:user_id] = user.id
-  #   redirect_to root_url, :notice => "Signed in!"
-  # end
+  def connect_callback
+    auth = request.env["omniauth.auth"]
+    User.find(session[:user_id]).update_facebook_params(auth)
+    redirect_to '/signin', :notice => "Signed in!" # TODO: make a new page for completion
+  end
 
-  # def new
-  #   redirect_to '/auth/facebook'
-  # end
-
-  # def destroy
-  #   reset_session
-  #   redirect_to root_url, notice => 'Signed out'
-  # end
-
+  def signin
+  end
 end

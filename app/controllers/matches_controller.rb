@@ -36,15 +36,6 @@ class MatchesController < ApplicationController
     end
   end
 
-  def show
-    if check_token
-      m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
-      render json: {'hello': 'hi'}
-    else
-      render json: {status: 401}
-    end
-  end
-
   private
   def get_params
     # @match_params = params.permit(:user_id, :match_id, :yes)
