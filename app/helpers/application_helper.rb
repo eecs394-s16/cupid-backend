@@ -1,6 +1,6 @@
 module ApplicationHelper
   def check_token
-    if User.find(params[:user_id]).access_token == params[:access_token]
+    if user = User.find(params[:user_id]) && user.access_token == params[:access_token]
       return true
     else
       return false
