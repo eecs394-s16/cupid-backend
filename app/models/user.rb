@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   before_save :downcase_email
+  after_create :create_matches_for_user
   validates_uniqueness_of :email
   validates_presence_of :email, :orientation
   validates :orientation, inclusion: { in: ['straight', 'gay', 'bi'] }
@@ -232,5 +233,21 @@ class User < ActiveRecord::Base
     end while self.class.exists?(access_token: access_token)
     self.save
     return self.access_token
+  end
+
+  def create_matches_for_user
+    if orientation == 'gay' or orientation == 'bi'
+      gay_matches = User.where.not(user_id: id).where(gender: gender, orientation: ['bi', 'gay'])
+    elsif orientation == 'straight' or orientation == 'bi'
+      straight_matches = User.where.not(user_id: id).where(gender: !gender, orientation: ['bi', 'straight'])
+    end
+
+    if gay_matches
+      gay_matches.find_each do |u|
+        Match.find_or_create_by(user1: u, user2: self)
+      end
+    end
+    if straight_matches
+
   end
 end
