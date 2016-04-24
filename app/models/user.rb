@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   before_save :downcase_email
-  after_create :create_matches_for_user
+  after_save :create_all_matches
   validates_uniqueness_of :email
   validates_presence_of :email, :orientation
   validates :orientation, inclusion: { in: ['straight', 'gay', 'bi'] }
@@ -68,19 +68,19 @@ class User < ActiveRecord::Base
 
       else
         return {
-        'match_id': match.id,
-        'user_id': id,
-        'user_name': full_name,
-        'users': [
-           {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
-           {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
-        ]
+          'match_id': match.id,
+          'user_id': id,
+          'user_name': full_name,
+          'users': [
+                    {'name': match.user1.full_name, 'profile_picture': match.user1.image_url},
+                    {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
+                   ]
         }
       end
     else
       return {
-          'match_id': false
-        }
+        'match_id': false
+      }
     end
   end
 
@@ -241,7 +241,7 @@ class User < ActiveRecord::Base
   end
 
   def create_all_matches
-    Match.create_valid_matches
+    Match.create_valid_matches unless uid.nil?
   end
 
   # Doesn't create all matches that need to be created
