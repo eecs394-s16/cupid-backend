@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     resources :users, only: [:create]
   end
 
+  get '/users/:id' => 'users#show'
+
   post '/login' => 'sessions#create'
   get '/signout' => 'sessions#destroy', :as => :signout
 

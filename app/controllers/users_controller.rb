@@ -30,6 +30,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    begin
+      first_name = User.find(params[:id]).first_name.capitalize
+      @welcome_message = "Welcome to Cupid, #{first_name}!"
+    rescue
+      @welcome_message = "Welcome to Cupid!"
+    end
+  end
+
   private
 
   def user_params

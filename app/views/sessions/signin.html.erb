@@ -1,9 +1,15 @@
-<h1>Sign in with your newly created Cupid credentials!</h1>
+<h1><div class="container">Sign in with your newly created Cupid credentials to connect to Facebook</div></h1>
+<div class="container">
+  <form action="/connect" method="post">
+    <input type="email" name="session[email]" placeholder="email"><br>
+    <input type="password" name="session[password]" placeholder="password"><br><br>
 
-<form action="/connect" method="post">
-  Email:<br>
-  <input type="email" name="session[email]"><br>
-  Password:<br>
-  <input type="password" name="session[password]"><br><br>
-  <input type="submit" value="Sign in and connect to Facebook">
-</form>
+    <div class="errors">
+      <% flash.each do |key, msg| %>
+      <%= content_tag :li, msg, id: key %>
+      <% end %>
+    </div>
+
+    <input type="submit" value="Sign in and connect to Facebook" class="submit">
+  </form>
+</div>

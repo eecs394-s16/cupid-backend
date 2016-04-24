@@ -32,8 +32,8 @@ class SessionsController < ApplicationController
 
   def connect_callback
     auth = request.env["omniauth.auth"]
-    User.find(session[:user_id]).update_facebook_params(auth)
-    redirect_to '/signin', :notice => "Signed in!" # TODO: make a new page for completion
+    u = User.find(session[:user_id]).update_facebook_params(auth)
+    redirect_to "/users/#{u.id}", :notice => "Signed in!"
   end
 
   def signin
