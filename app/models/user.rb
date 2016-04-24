@@ -237,20 +237,20 @@ class User < ActiveRecord::Base
 
   def create_matches_for_user
     if orientation == 'gay' or orientation == 'bi'
-      gay_matches = User.where.not(user_id: id).where(gender: gender, orientation: ['bi', 'gay'])
+      gay_matches = User.where.not(id: id).where(gender: gender, orientation: ['bi', 'gay'])
     elsif orientation == 'straight' or orientation == 'bi'
-      straight_matches = User.where.not(user_id: id).where(gender: !gender, orientation: ['bi', 'straight'])
+      straight_matches = User.where.not(id: id).where(gender: !gender, orientation: ['bi', 'straight'])
     end
 
     if gay_matches
       gay_matches.find_each do |u|
-        Match.find_or_create_by(user1: u, user2: self)
+        Match.find_or_create_by(user_1_id: u.id, user_2_id: id)
       end
     end
 
     if straight_matches
       straight_matches.find_each do |u|
-        Match.find_or_create_by(user1: u, user2: self)
+        Match.find_or_create_by(user_1_id: u.id, user_2_id: id)
       end
     end
   end
