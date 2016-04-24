@@ -247,7 +247,11 @@ class User < ActiveRecord::Base
         Match.find_or_create_by(user1: u, user2: self)
       end
     end
-    if straight_matches
 
+    if straight_matches
+      straight_matches.find_each do |u|
+        Match.find_or_create_by(user1: u, user2: self)
+      end
+    end
   end
 end
