@@ -11,10 +11,13 @@
 #
 
 class Vote < ActiveRecord::Base
+  belongs_to :match
+  belongs_to :user
+
   def self.match_vote(match_params)
-    Vote.create!(user_id: match_params[:user_id],
-                 match_id: match_params[:match_id],
-                 yes: match_params[:yes])
+    v = Vote.find_or_create_by(user_id: match_params[:user_id],
+                               match_id: match_params[:match_id])
+    v.update_attributes(yes: match_params[:yes])
   end
 
   def self.find_num_votes(match_id)

@@ -72,10 +72,9 @@ class MatchesController < ApplicationController
 
   def get_votable_match_for_user
   	# if check_token
-      data = JSON.parse request.body.read
       # The data should contain two things:
       # One is the user's id. The other one is the id of the person to be matched.
-      return_data=User.find(data['user_id']).get_votable_match_for_user(data['curr_matched_id'])
+      return_data=User.find(params[:user_id]).get_votable_match_for_user(params[:curr_matched_id])
       render json: return_data
     # else
     #   render json: {status: 401}

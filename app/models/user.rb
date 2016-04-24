@@ -19,6 +19,7 @@
 
 class User < ActiveRecord::Base
   has_many :matches
+  has_many :votes
   has_many :friendships
   has_many :friends, through: :friendships
   has_secure_password
@@ -53,14 +54,13 @@ class User < ActiveRecord::Base
   end
 
   def get_votable_match
-    # votable matches, whether voted on or not
     votable_matches = Match.where.not(user_1_id: id).where.not(user_2_id: id)
-    # matches I've voted on - this will be slow because it's not sql
     matches_ive_voted_on = Vote.where(user_id: id).all.map(&:match_id)
 
     # postgres specific
     match = votable_matches.where.not(id: matches_ive_voted_on).order("RANDOM()").first
-    # if it is not an empty match
+    match = votable_matches.order("RANDOM()").first if match.blank?
+
     unless match.blank?
       return {
         'match_id': match.id,
@@ -71,8 +71,6 @@ class User < ActiveRecord::Base
            {'name': match.user2.full_name, 'profile_picture': match.user2.image_url},
         ]
       }
-
-    # otherwise return match_id equals null
     else
       return {
           'match_id': false
