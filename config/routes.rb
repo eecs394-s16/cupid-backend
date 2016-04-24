@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get '/signout' => 'sessions#destroy', :as => :signout
 
   post '/mymatch' => 'matches#mymatch', as: :mymatch
+  post '/getnextuser' => 'matches#get_next_user_and_votable_match'
+  post '/getprevuser' => 'matches#get_prev_user_and_votable_match'
+  post '/getmatchforuser' => 'matches#get_votable_match_for_user'
 
   # Facebook connect routes - backend html pages
   get '/signin' => 'sessions#signin'
