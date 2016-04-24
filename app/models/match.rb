@@ -30,7 +30,7 @@ class Match < ActiveRecord::Base
   belongs_to :user2, :class_name => 'User', :foreign_key => 'user_2_id'
 
   def self.create_valid_matches
-    User.find_each do |user|
+    User.where.not(uid: nil).find_each do |user|
       if user.orientation != 'gay'
         User.where('id > ?',  user.id)
           .where(gender: !user.gender, orientation: ['straight', 'bi']).each do |u2|
@@ -39,7 +39,7 @@ class Match < ActiveRecord::Base
       end
 
       if user.orientation != 'straight'
-        User.where('id > ?', user.id)
+        User.where.not(uid: nil).where('id > ?', user.id)
           .where(gender: user.gender, orientation: ['gay', 'bi']).each do |u2|
           Match.find_or_create_by(user1: user, user2: u2)
         end

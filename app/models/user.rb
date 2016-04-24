@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
     unless match.blank?
       if match.user1.uid==nil || match.user2.uid==nil
         return get_votable_match
-        
+
       else
         return {
         'match_id': match.id,
@@ -240,23 +240,28 @@ class User < ActiveRecord::Base
     return self.access_token
   end
 
-  def create_matches_for_user
-    if orientation == 'gay' or orientation == 'bi'
-      gay_matches = User.where.not(id: id).where(gender: gender, orientation: ['bi', 'gay'])
-    elsif orientation == 'straight' or orientation == 'bi'
-      straight_matches = User.where.not(id: id).where(gender: !gender, orientation: ['bi', 'straight'])
-    end
-
-    if gay_matches
-      gay_matches.find_each do |u|
-        Match.find_or_create_by(user_1_id: u.id, user_2_id: id)
-      end
-    end
-
-    if straight_matches
-      straight_matches.find_each do |u|
-        Match.find_or_create_by(user_1_id: u.id, user_2_id: id)
-      end
-    end
+  def create_all_matches
+    Match.create_valid_matches
   end
+
+  # Doesn't create all matches that need to be created
+  # def create_matches_for_user
+  #   if orientation == 'gay' or orientation == 'bi'
+  #     gay_matches = User.where.not(id: id).where(gender: gender, orientation: ['bi', 'gay'])
+  #   elsif orientation == 'straight' or orientation == 'bi'
+  #     straight_matches = User.where.not(id: id).where(gender: !gender, orientation: ['bi', 'straight'])
+  #   end
+
+  #   if gay_matches
+  #     gay_matches.find_each do |u|
+  #       Match.find_or_create_by(user_1_id: u.id, user_2_id: id)
+  #     end
+  #   end
+
+  #   if straight_matches
+  #     straight_matches.find_each do |u|
+  #       Match.find_or_create_by(user_1_id: u.id, user_2_id: id)
+  #     end
+  #   end
+  # end
 end
