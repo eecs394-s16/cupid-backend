@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
     match = votable_matches.order("RANDOM()").first if match.blank?
 
     unless match.blank?
-      if match.user1.uid.nil? || match.user2.uid.nil?
+      if match.user1.uid==nil || match.user2.uid==nil
         return get_votable_match
         
       else
