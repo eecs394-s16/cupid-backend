@@ -12,6 +12,7 @@
 #
 
 class MatchesController < ApplicationController
+  include ApplicationHelper
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
 
   def mymatch
@@ -35,7 +36,7 @@ class MatchesController < ApplicationController
       render json: {status: 401}
     end
   end
-  
+
   def show
     if check_token
       m  = Match.where.not(user_1_id: 1).where.not(user_2_id: 2).all.shuffle.first
@@ -73,7 +74,7 @@ class MatchesController < ApplicationController
   	# if check_token
       data = JSON.parse request.body.read
       # The data should contain two things:
-      # One is the user's id. The other one is the id of the person to be matched. 
+      # One is the user's id. The other one is the id of the person to be matched.
       return_data=User.find(data['user_id']).get_votable_match_for_user(data['curr_matched_id'])
       render json: return_data
     # else

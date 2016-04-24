@@ -11,6 +11,7 @@
 #
 
 class VotesController < ApplicationController
+  include ApplicationHelper
   skip_before_filter :verify_authenticity_token
 
   def create
