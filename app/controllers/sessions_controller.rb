@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
         render json: { success: true, access_token: user.generate_access_token, user_id: user.id }
       else
         render json: {success: false, error_msg: "Please link your account with facebook."}
+      end
     else
       render json: { success: false }
     end
