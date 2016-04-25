@@ -18,8 +18,15 @@ class VotesController < ApplicationController
     if check_token
       get_params
       Vote.match_vote(@vote_params) if @vote_params[:match_id]
-      resp = User.find(@vote_params[:user_id]).get_votable_match
-      render json: resp.to_json
+      u = User.find(@vote_params[:user_id])
+      if u.uid != nil
+        resp = u.get_votable_match
+        resp['fb_connected'] = true
+        render json: resp.to_json
+      else
+        render json: {'fb_connected': false}
+      end
+
     else
       render json: {status: 401}
     end
