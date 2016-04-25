@@ -47,8 +47,7 @@ class User < ActiveRecord::Base
 
       friends.each do |profile|
         next unless friend = User.find_by_uid(profile['id'])
-        #next if Friendship.where(user_id: user.id, friend_id: friend.id).blank?
-        Friendship.create({:user_id => auth['uid'],:friend_id => profile['id']})
+        Friendship.create(user_id: id, friend_id: friend.id)
       end
 
     end
