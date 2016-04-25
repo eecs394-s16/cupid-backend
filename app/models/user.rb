@@ -97,6 +97,20 @@ class User < ActiveRecord::Base
     end
   end
 
+  def get_my_matches
+    matches = Match.where('user_1_id = (?) or user_2_id = (?)', id, id).all.sort_by{|m| -m.votes.count}
+    matches.map do |m|
+      u2 = [m.user1, m.user2].select{|u| u.id != id}.first
+      {
+        'user_2_fb_id': u2.uid,
+        'user_2_first_name': u2.first_name,
+        'user_2_last_name': u2.last_name,
+        'user_2_pic': u2.image_url,
+        'num_votes': m.votes.count
+      }
+    end
+  end
+
   def create_all_matches
     Match.create_valid_matches unless uid.nil?
   end
