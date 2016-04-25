@@ -5,12 +5,12 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       if user.uid
-        render json: { success: true, access_token: user.generate_access_token, user_id: user.id }
+        render json: { success: true, access_token: user.generate_access_token, user_id: user.id, fb_connected: true }
       else
-        render json: {success: false, error_msg: "Please link your account with facebook."}
+        render json: {success: false, fb_connected: false, error_msg: "Please link your account with facebook."}
       end
     else
-      render json: { success: false }
+      render json: { success: false, fb_connected: false }
     end
   end
 
