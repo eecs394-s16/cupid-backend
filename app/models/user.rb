@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
       self.last_name = auth['info']['last_name'] || ""
       self.image_url = auth['info']['image'] || ""
       self.gender = auth['info']['gender'] == 'male'
+      self.save
 
       @graph = Koala::Facebook::API.new(auth['credentials']['token'])
       friends = @graph.get_connections("me", "friends", api_version: "v2.0")
